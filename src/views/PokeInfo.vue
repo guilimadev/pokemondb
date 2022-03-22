@@ -1,6 +1,6 @@
 <template>
     <div class="mx-4">
-        <v-card color="blue lighten-2 ">
+        <v-card :color="`${pokemonSpecies.color.name} + lighten-2`">
             
             <v-card-title
               dark              
@@ -25,8 +25,10 @@
                 <v-chip 
                     v-for="(info, index) in selectedPokemon.types"
                     :key="index" 
+                    :color="`${typesColors[info.type.name]}`"
                     class="ml-2 text-uppercase"
-                    @click="$router.push({path: `/type/${info.type.name}`})"
+                    @click="checkColor(`${typesColors[0]}`)"
+                    
                 >
                 
                     {{ info.type.name}}
@@ -34,7 +36,7 @@
                 </v-chip>            
             </div>
             <div class="d-flex flex-row align-center justify-center pa-2">
-                <v-list dense color="blue lighten-2">
+                <v-list dense :color="`${pokemonSpecies.color.name} + lighten-2`">
                         <v-list-item-group>
                             <v-list-item>
                                Height: {{selectedPokemon.height/10}}m | Weight: {{selectedPokemon.weight/10}}kg                            
@@ -45,7 +47,7 @@
             <v-tabs
             v-model="tab"
                 background-color="transparent"
-                color="blue lighten-4"
+                :color="`${pokemonSpecies.color.name} + lighten-4`"
                 grow
             >
                 <v-tab
@@ -59,7 +61,7 @@
             <v-tabs-items v-model="tab">
                 <v-tab-item>
                     <v-card
-                    color="blue lighten-4"
+                    :color="`${pokemonSpecies.color.name} + lighten-4`"
                     flat
                     >
                     <v-card-text>
@@ -75,7 +77,7 @@
                 </v-tab-item>
                 <v-tab-item>
                     <v-card
-                    color="blue lighten-4"
+                    :color="`${pokemonSpecies.color.name} + lighten-4`"
                     flat
                     >
                     <v-card-text>
@@ -110,6 +112,28 @@ export default {
       pokemons: [],
       pokemonDetailId: "",
       selectedPokemon: [],
+      evolutionChain: [],
+      pokemonSpecies: [],
+      typesColors: 
+        {'normal': '#A8A77A',
+        'fire': '#EE8130',
+        'water': '#6390F0',
+        'electric':  '#F7D02C',
+        'grass':  '#7AC74C',
+        'ice':  '#96D9D6',
+        'fighting':  '#C22E28',
+        'poison':  '#A33EA1',
+        'ground':  '#E2BF65',
+        'flying':  '#A98FF3',
+        'psychic':  '#F95587',
+        'bug':  '#A6B91A',
+        'rock':  '#B6A136',
+        'ghost':  '#735797',
+        'dragon':  '#6F35FC',
+        'dark':  '#705746',
+        'steel':  '#B7B7CE',
+        'fairy':  '#D685AD'},
+      
       tab: null,
       max: 255,
       items: [
@@ -124,13 +148,34 @@ export default {
         .then(response => response.json())
         .then(response =>{
             this.selectedPokemon = response;
+            console.log( this.selectedPokemon)            
+            fetch('https://pokeapi.co/api/v2/pokemon-species/' + this.pokemonDetailId)
+                .then(response => response.json())
+                .then(response => {
+                    this.pokemonSpecies = response
+                    console.log(this.pokemonSpecies.color.name)
+                    fetch(response.evolution_chain.url)
+                        .then(response2 => response2.json())
+                        .then(response2 => {
+                            this.evolutionChain = response2
+                            console.log(this.evolutionChain)
+                        })
+                })
+
           
-            console.log(response)
+            
       }) 
-    }   
+    }, 
+    checkColor(message){
+        console.log(message)
+    }
+    
   },
+  
   created() {
       this.pokemonDetails();
+      this.pokemonEvolutionChain();
+      
 
   }
     

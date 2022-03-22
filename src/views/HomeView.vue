@@ -1,51 +1,80 @@
 <template>
   <div class="mx-2">
     <v-card
-      color="blue lighten-2"
+      color="white lighten-2 mb-4 mx-auto"
+      dark           
+      elevation="24"
+      width="500"
+      class="justify-center mx-auto rounded-xl"
+    >
+      <v-card-title class="text-h5 red lighten-3 align-center justify-center pokeball"> 
+        Pokedex made by @guilimadev
+      </v-card-title>
+      <div class="text-center">        
+        <v-divider color="black"></v-divider>
+        <span @click="alert()" class="dot"></span>
+        <v-expand-transition>
+          <div v-show="show" class="mx-auto">            
+            <v-divider></v-divider>
+            <v-img
+              src="../assets/poke2.png" 
+            >
+            </v-img>
+          </div>
+        </v-expand-transition>      
+      </div>
+      <v-card-text class="black--text mt-n8">        
+        Pokémon was invented by a Japanese man named Satoshi Tajiri and his friend Ken Sugimori, who is an illustrator. Back in 1982 Satoshi started a gaming magazine together with his friends called Game Freak, but after a while he decided to start making his own video games, instead of writing about them.
+      </v-card-text>
+    </v-card>
+    <v-card
+      color="red lighten-3"
       dark
     >
-      <v-card-title class="text-h5 blue lighten-3 align-center justify-center">
+      <v-card-title class="text-h5 red lighten-3 align-center justify-center">
         Search for Pokemon
       </v-card-title>
-      <v-card-text>
+      <v-card-text> 
         Explore hundreds of Pokemons      
       </v-card-text>
-      <v-card-text>
+      <v-card-text >
         <v-autocomplete
           v-model="model"
           :items="items"
           :loading="isLoading"
           :search-input.sync="search"
-          color="white"
+          color="black"          
           hide-no-data
           hide-selected
           item-text="name"
           item-value="name"
-          label="Search for a Pokemons"
+          label="Search for a Pokemon"
           placeholder="Start typing to Search"
           prepend-icon="mdi-database-search"
+          dark
           return-object
         ></v-autocomplete>
       </v-card-text>
       <v-divider></v-divider>
     
-      <v-expand-transition>        
+      <v-expand-transition class="black--text">        
         <v-list
           v-if="model"
-          class="blue lighten-2 "
+          class="white"
         >
           <v-list-item
             v-for="(field, i) in fields"
             :key="i"
             v-model="selectedItem"
+            
           >
           
             <v-btn v-if="i == 0" :disabled="!model"
-                color="grey darken-3"
-                
+                color="red lighten-3 black--text"
+                class="mx-auto"
                 @click="$router.push({path: `/pokemon/${field.value}`})"
               >
-                Go to Pokemon Page
+                Go to {{field.value}} Page
               </v-btn> 
           </v-list-item>
         </v-list>        
@@ -54,7 +83,7 @@
         <v-spacer></v-spacer>        
         <v-btn
           :disabled="!model"
-          color="grey darken-3"
+          color="red lighten-3"
           @click="model = null"
         >
           Clear
@@ -75,9 +104,15 @@
       model: null,
       search: '',
       abilities: [],
-      forms: []
+      forms: [],
+      show: false
     }),
-
+    methods: {
+      alert(){
+        this.show = !this.show
+        console.log(this.show)
+      }
+    },
     computed: {
       fields () {
         if (!this.model) return []
@@ -130,4 +165,25 @@
   .uppercase {
     text-transform: uppercase;
   }
+
+  .dot {
+  height: 25px;
+  width: 25px;
+  background-color: black;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  top: -10px;
+  animation: blinker 1s linear infinite;
+}
+  
+@keyframes blinker {
+  50% {    
+    background-color: red;
+  }
+} 
+
+.rounded-card {
+  border-radius: 50%; 
+}
 </style>
