@@ -1,9 +1,11 @@
 <template>
     <div v-if="selectedType.name !== 'shadow' && selectedType.name !== 'unknown'" class="mx-4">
+      
         <v-card 
           v-if="selectedType.name == 'bug' "          
-          :color="`${typesColors[selectedType.name]} + accent-3`"           
-        >                 
+          :color="`${typesColors[selectedType.name]} + accent-3`" 
+          background-color="transparent"          
+        >                          
           <v-card-title
             color="white"           
             class="text-lg text-uppercase text-center justify-center"
@@ -11,6 +13,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items> 
+            </v-card> 
+          <v-divider></v-divider>
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -50,7 +139,93 @@
           >
               {{selectedType.name}}
           </v-card-title>            
-            <v-divider></v-divider>
+            <v-divider></v-divider><v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -91,6 +266,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -131,6 +393,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -171,6 +520,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -211,6 +647,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -251,6 +774,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -291,6 +901,93 @@
               {{selectedType.name}}
           </v-card-title>            
             <v-divider></v-divider>
+            <v-card class="ma-4" :color="`${typesColors[selectedType.name]} + accent-2`"  >
+              <v-card-title class="text-lg text-uppercase text-center justify-center">
+                Damage Relations
+              </v-card-title>
+              <v-tabs
+              v-model="tab"                  
+                  :color="`${typesColors[selectedType.name]} + accent-3`"                  
+                  grow
+              >
+                  <v-tab
+                      v-for="item in damage"
+                      :key="item"
+                      :class="`${typesColors[selectedType.name]} + accent-2 black--text`"
+                  >
+                  {{item}}
+                </v-tab>
+              </v-tabs>
+               <v-tabs-items v-model="tab">
+                  <v-tab-item >
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`" class="py-2"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr>
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_to"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                   
+                        </template>
+                      </v-simple-table>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card :color="`${typesColors[selectedType.name]} + accent-2`"  >
+                      <v-simple-table :class="`${typesColors[selectedType.name]} + accent-2 py-2`"  >
+                        <template v-slot:default>                          
+                            <tr>
+                              <th scope="col">Type</th>
+                              <th scope="col">Power</th>
+                            
+                            </tr>
+                            <tr v-for="(type, index) in selectedType.damage_relations.double_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-2</v-icon>X</v-chip></td>                   
+                            </tr>
+
+                            <tr v-for="(type, index) in selectedType.damage_relations.half_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-fraction-one-half</v-icon>X</v-chip></td>                   
+                            </tr> 
+                            <tr                                  
+                                v-for="(type, index) in selectedType.damage_relations.no_damage_from"
+                                :key="index"
+                            >
+                              <td class="text-center text-uppercase">{{type.name}}</td>
+                              <td class="text-center"><v-chip color="white"><v-icon>mdi-numeric-0</v-icon>X</v-chip></td>                   
+                            </tr>                     
+                        </template>
+                      </v-simple-table>
+                    </v-card>                      
+                  </v-tab-item>                     
+              </v-tabs-items>              
+
+            </v-card> 
             <v-card 
                 v-for="(pokemon, index) in pokemonsIds"
                 :key="index"                
@@ -409,7 +1106,11 @@ export default {
         'dark':  'brown',
         'steel':  'grey',
         'fairy':  'pink'
-       },  
+       },
+       damage: [
+          'Offensive', 'Defensive'
+      ],
+      tab: null  
            
     };
   },

@@ -46,11 +46,13 @@
             v-model="tab"
                 background-color="transparent"
                 :color="`${pokemonSpecies.color.name} + lighten-4`"
+                
                 grow
             >
                 <v-tab
                     v-for="item in items"
                     :key="item"
+                    class="white--text"
                 >
                 {{item}}
                 </v-tab>
@@ -66,7 +68,7 @@
                         <p 
                             v-for="(info, index) in selectedPokemon.abilities"
                             :key="index"
-                            class="text-uppercase "
+                            class="text-uppercase white--text"
                         >
                         {{info.ability.name}} <span v-if="info.is_hidden" class="font-italic">(Hidden)</span>
                         </p>
@@ -82,7 +84,7 @@
                         <p
                             v-for="(info, index) in selectedPokemon.stats"
                             :key="index"
-                            class="text-uppercase text-center"
+                            class="text-uppercase text-center white--text"
                         >
                         {{info.stat.name}}: {{info.base_stat}}                       
                         </p>
@@ -118,7 +120,7 @@
                 <v-col                
                 cols="12"
                 >
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption text-center">
                     {{evolutionChain.chain.species.name}}
                 </v-card-text>                                     
                 </v-col>               
@@ -127,7 +129,7 @@
 
         <!-- Three evolutions-->
         <v-card 
-            class="my-4 white--text justify-space-around"             
+            class="my-4 white--text justify-space-around "             
             :color="`${pokemonSpecies.color.name} + lighten-2`"
             v-else-if="evolutionChain.chain.evolves_to[0].evolves_to.length == 1"
         >
@@ -139,7 +141,7 @@
             <v-row >
                 <v-col                
                 cols="4"
-                class="d-flex justify-center"
+                class="d-flex justify-center px-6 pt-2"
                 
                 >
                     <v-img
@@ -173,21 +175,21 @@
                 <v-col                
                 cols="4"
                 >
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption text-center">
                     {{evolutionChain.chain.species.name}}
                 </v-card-text>                                     
                 </v-col>
                 <v-col                
                 cols="4"
                 >
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption pokeName text-center">
                     {{evolutionChain.chain.evolves_to[0].species.name}}
                 </v-card-text>                  
                 </v-col>
                 <v-col                
                 cols="4"
                 >   
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption text-center">
                         {{evolutionChain.chain.evolves_to[0].evolves_to[0].species.name}}
                     </v-card-text>                
                 </v-col>
@@ -228,14 +230,14 @@
                 <v-col                
                 cols="6"
                 >
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption text-center">
                     {{evolutionChain.chain.species.name}}
                 </v-card-text>                                     
                 </v-col>
                 <v-col                
                 cols="6"
                 >
-                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    <v-card-text class="text-capitalize text-caption text-center">
                     {{evolutionChain.chain.evolves_to[0].species.name}}
                 </v-card-text>                  
                 </v-col>                
@@ -340,5 +342,9 @@ export default {
     }
     .chip{
         border: 5px black;
+    }
+
+    .pokeName{
+       word-break: keep-all; 
     }
 </style>
