@@ -1,10 +1,10 @@
 <template>
     <div class="mx-4">
-        <v-card :color="`${pokemonSpecies.color.name} + lighten-2`">
-            
+        <v-card :color="`${pokemonSpecies.color.name} + lighten-2`">            
             <v-card-title
               dark              
-              class="text-lg text-uppercase text-center justify-center"
+              :class="`text-lg text-uppercase white--text text-center justify-center ${pokemonSpecies.color.name} + darken-1`"
+              
             >
               {{ selectedPokemon.name }} #{{selectedPokemon.id}}
             </v-card-title>
@@ -14,23 +14,21 @@
                     size="124"
                > 
                    <v-img                
-                    :src="selectedPokemon.sprites.front_default"
+                    :src="pokemonImageURL + selectedPokemon.id + '.png'"
                     :alt="selectedPokemon.name"
                     aspect-ratio="2"
                     >
                    </v-img>
                 </v-avatar>
             </div>
-            <div class="d-flex flex-row align-center justify-center pa-2">            
+            <div class="d-flex flex-row align-center justify-center pa-2 chip">            
                 <v-chip 
                     v-for="(info, index) in selectedPokemon.types"
                     :key="index" 
                     :color="`${typesColors[info.type.name]}`"
-                    class="ml-2 text-uppercase"
-                    @click="checkColor(`${typesColors[0]}`)"
-                    
-                >
-                
+                    class="ml-2 text-uppercase "
+                    @click="$router.push({path: `/type/${info.type.name}`})"                    
+                >                
                     {{ info.type.name}}
                 
                 </v-chip>            
@@ -93,6 +91,158 @@
                 </v-tab-item>                     
             </v-tabs-items>
         </v-card>
+
+        <!-- No evolutions-->
+        <v-card 
+            class="my-4" 
+            :color="`${pokemonSpecies.color.name} + lighten-2`"
+            v-if="evolutionChain.chain.evolves_to.length == 0"
+        >
+            <v-card-title
+                :class="`justify-center white--text ${pokemonSpecies.color.name} + darken-1`" 
+                :color="`${pokemonSpecies.color.name} + lighten-4`"
+            >
+                Evolution Chain
+            </v-card-title>
+            <v-row>
+                <v-col                
+                cols="12"
+                >
+                    <v-img
+                    :src="pokemonImageURL + evolutionChain.chain.species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>                                                
+            </v-row> 
+            <v-row>
+                <v-col                
+                cols="12"
+                >
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    {{evolutionChain.chain.species.name}}
+                </v-card-text>                                     
+                </v-col>               
+            </v-row>
+        </v-card>
+
+        <!-- Three evolutions-->
+        <v-card 
+            class="my-4 white--text justify-space-around"             
+            :color="`${pokemonSpecies.color.name} + lighten-2`"
+            v-else-if="evolutionChain.chain.evolves_to[0].evolves_to.length == 1"
+        >
+            <v-card-title 
+                :class="`justify-center ${pokemonSpecies.color.name} + darken-1`"                
+            >
+                Evolution Chain
+            </v-card-title>
+            <v-row >
+                <v-col                
+                cols="4"
+                class="d-flex justify-center"
+                
+                >
+                    <v-img
+                    max-width="100"
+                    :src="pokemonImageURL + evolutionChain.chain.species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>
+                <v-col                
+                cols="4"                
+                class="d-flex justify-center"
+                >
+                    <v-img
+                    max-width="100"
+                    :src="pokemonImageURL + evolutionChain.chain.evolves_to[0].species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>
+                <v-col                
+                cols="4"
+                class="d-flex justify-center"
+                >
+                    <v-img
+                    max-width="100"
+                    :src="pokemonImageURL + evolutionChain.chain.evolves_to[0].evolves_to[0].species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>                
+            </v-row> 
+            <v-row>
+                <v-col                
+                cols="4"
+                >
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    {{evolutionChain.chain.species.name}}
+                </v-card-text>                                     
+                </v-col>
+                <v-col                
+                cols="4"
+                >
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    {{evolutionChain.chain.evolves_to[0].species.name}}
+                </v-card-text>                  
+                </v-col>
+                <v-col                
+                cols="4"
+                >   
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                        {{evolutionChain.chain.evolves_to[0].evolves_to[0].species.name}}
+                    </v-card-text>                
+                </v-col>
+            </v-row>
+        </v-card>
+
+
+        <!-- Two evolutions-->
+        <v-card 
+            class="my-4 white--text" 
+            :color="`${pokemonSpecies.color.name} + lighten-2`"
+            v-else-if="evolutionChain.chain.evolves_to[0].evolves_to.length == 0"
+        >
+            <v-card-title 
+                :class="`justify-center ${pokemonSpecies.color.name} + darken-1`"   
+            >
+                Evolution Chain
+            </v-card-title>
+            <v-row>
+                <v-col                
+                cols="6"
+                >
+                    <v-img
+                    :src="pokemonImageURL + evolutionChain.chain.species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>
+                <v-col                
+                cols="6"
+                >
+                    <v-img
+                    :src="pokemonImageURL + evolutionChain.chain.evolves_to[0].species.url.slice(42, -1) + '.png'"                                        
+                    >
+                    </v-img>                    
+                </v-col>                                
+            </v-row>
+            <v-row>
+                <v-col                
+                cols="6"
+                >
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    {{evolutionChain.chain.species.name}}
+                </v-card-text>                                     
+                </v-col>
+                <v-col                
+                cols="6"
+                >
+                    <v-card-text class="text-capitalize text-subtitle-2 text-center">
+                    {{evolutionChain.chain.evolves_to[0].species.name}}
+                </v-card-text>                  
+                </v-col>                
+            </v-row> 
+        </v-card>
+
+        
     </div>
 </template>
 
@@ -114,26 +264,26 @@ export default {
       selectedPokemon: [],
       evolutionChain: [],
       pokemonSpecies: [],
-      typesColors: 
-        {'normal': '#A8A77A',
-        'fire': '#EE8130',
-        'water': '#6390F0',
-        'electric':  '#F7D02C',
-        'grass':  '#7AC74C',
-        'ice':  '#96D9D6',
-        'fighting':  '#C22E28',
-        'poison':  '#A33EA1',
-        'ground':  '#E2BF65',
-        'flying':  '#A98FF3',
-        'psychic':  '#F95587',
-        'bug':  '#A6B91A',
-        'rock':  '#B6A136',
-        'ghost':  '#735797',
-        'dragon':  '#6F35FC',
-        'dark':  '#705746',
-        'steel':  '#B7B7CE',
-        'fairy':  '#D685AD'},
-      
+      typesColors:{
+        'normal': 'brown lighten-3',
+        'fire': 'amber',
+        'water': 'light-blue',
+        'electric':  'yellow',
+        'grass':  'light-green',
+        'ice':  'light-blue',
+        'fighting':  'red',
+        'poison':  'purple',
+        'ground':  'green',
+        'flying':  'blue',
+        'psychic':  'red',
+        'bug':  'light-green accent-3',
+        'rock':  'lime',
+        'ghost':  'deep-purple',
+        'dragon':  'indigo',
+        'dark':  'brown',
+        'steel':  'grey',
+        'fairy':  'pink'
+       },      
       tab: null,
       max: 255,
       items: [
@@ -187,5 +337,8 @@ export default {
     .btn {
          border: none;
         outline: none;
+    }
+    .chip{
+        border: 5px black;
     }
 </style>

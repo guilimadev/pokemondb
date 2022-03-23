@@ -1,10 +1,10 @@
 <template>
   <div class="mx-2">
     <v-card
-      color="blue lighten-2"
+      color="red lighten-3"
       dark
     >
-      <v-card-title class="text-h5 blue lighten-3 align-center justify-center">
+      <v-card-title class="text-h5 red lighten-3 align-center justify-center">
         Search for a Type
       </v-card-title>
       <v-card-text>
@@ -16,7 +16,7 @@
           :items="items"
           :loading="isLoading"
           :search-input.sync="search"
-          color="white"
+          color="black"
           hide-no-data
           hide-selected
           item-text="name"
@@ -29,10 +29,10 @@
       </v-card-text>
       <v-divider></v-divider>
     
-      <v-expand-transition>        
+      <v-expand-transition class="black--text">        
         <v-list
           v-if="model"
-          class="blue lighten-2 "
+          class="white "
         >
           <v-list-item
             v-for="(field, i) in fields"
@@ -41,8 +41,8 @@
           >
           
             <v-btn v-if="i == 0" :disabled="!model"
-                color="grey darken-3"
-                
+                color="red lighten-3 black--text"
+                class="mx-auto"
                 @click="$router.push({path: `/type/${field.value}`})"
               >
                 Go to Type Page
@@ -54,7 +54,7 @@
         <v-spacer></v-spacer>        
         <v-btn
           :disabled="!model"
-          color="grey darken-3"
+          color="red lighten-3 black--text"
           @click="model = null"
         >
           Clear

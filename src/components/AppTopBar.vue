@@ -1,7 +1,7 @@
 <template>
     <v-container>
         <v-app-bar
-      color="blue"
+      color="red lighten-2"
       app
       dark
     >
@@ -12,7 +12,7 @@
 
     <v-navigation-drawer
       v-model="drawer"
-      absolute
+      fixed
       temporary
     > 
       <v-list
